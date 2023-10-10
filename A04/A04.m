@@ -12,6 +12,7 @@ for i=1:2
     
 
     fprintf(1, "=============== TRACE %d ===============\n", i);
+    M = zeros(3, 1);
     for j=1:3
         M(j) = sum(ServiceTime .^ j) / Num;
         fprintf(1, "Moment %d of Trace %d: %g\n", j, i, M(j));
@@ -22,7 +23,7 @@ for i=1:2
 
     figure('Name', sprintf('Trace %d\n', i), 'NumberTitle','off');
     xlabel('X');
-    xlim([0 100]);
+    xlim([0 75]);
     ylabel('CDF(X)');
     hold on;
     
@@ -37,21 +38,13 @@ for i=1:2
     fprintf(1, "Uniform a of Trace %d: %g\n", i, a);
     fprintf(1, "Uniform b of Trace %d: %g\n", i, b);
 
-    for j=1:Num
-        if(SortedServiceTime(j) <= a)
-            CDF_uniform(j) = 0;
-        elseif(SortedServiceTime(j) > b)
-            CDF_uniform(j) = 1;
-        else CDF_uniform(j) = (SortedServiceTime(j)-a)/(b-a);
-        end
-    end
-    plot(SortedServiceTime, CDF_uniform, 'DisplayName','Uniform');
+    plot(Time, Unif_cdf(Time, a, b), 'DisplayName','Uniform');
 
     % Exponential Distribution
     lambda = 1/M(1);
     fprintf(1, "Exponential Lambda of Trace %d: %g\n", i, lambda);
-    CDF_exponential = 1 - exp(-lambda .* Time);
-    plot(Time, CDF_exponential, 'DisplayName','Exponential');
+
+    plot(Time, Exp_cdf(Time, lambda), 'DisplayName','Exponential');
 
     % Erlang Distribution
     if(cv <= 1)
@@ -59,17 +52,12 @@ for i=1:2
         lambda = k/M(1);
         fprintf(1, "Erlang k of Trace %d: %g\n", i, k);
         fprintf(1, "Erlang Lambda of Trace %d: %g\n", i, lambda);
-        for j=1:Num
-            CDF_erlang(j) = 0;
-            for h=0:k-1
-                CDF_erlang(j) = CDF_erlang(j) + exp(-lambda*SortedServiceTime(j))*(lambda*SortedServiceTime(j))^h / factorial(h);
-            end
-            CDF_erlang(j) = 1 - CDF_erlang(j);
-        end
-        plot(SortedServiceTime, CDF_erlang, 'DisplayName','Erlang');
+
+        plot(Time, Erlang_cdf(Time, lambda, k), 'DisplayName','Erlang');
     else
         fprintf(1, "Trace %d cannot fit an Erlang Distribution \n", i);
     end
+    
     % METHOD OF MOMENTS
     
     % Weibull Distribution
@@ -80,8 +68,8 @@ for i=1:2
     k = x(2);
     fprintf(1, "Weibull lambda of Trace %d: %g\n", i, lambda);
     fprintf(1, "Weibull k of Trace %d: %g\n", i, k);
-    CDF_weibull = 1-exp(-(Time/lambda).^k);
-    plot(Time, CDF_weibull, 'DisplayName','Weibull');
+    
+    plot(Time, Weibull_cdf(Time, lambda, k), 'DisplayName','Weibull');
 
     % Pareto Distribution
     options = optimset('Display','off');
@@ -91,11 +79,8 @@ for i=1:2
     m = x(2);
     fprintf(1, "Pareto alpha of Trace %d: %g\n", i, alpha);
     fprintf(1, "Pareto m of Trace %d: %g\n", i, m);
-    CDF_pareto = (1 - (m ./ Time) .^alpha) .* (Time >= m);
-    plot(Time, CDF_pareto, 'DisplayName', 'Pareto');
-    
-    legend;
-    title('CDF')
+
+    plot(Time, Pareto_cdf(Time, m, alpha), 'DisplayName', 'Pareto');
     
     % MAXIMUM LIKELIHOOD METHOD
 
@@ -109,6 +94,7 @@ for i=1:2
     else
         fprintf(1, "Trace %d cannot fit an Hyper-Exp Distribution \n", i);
     end
+
     % Hypo-Exponential
     if(cv < 1)
         HypoE_values = mle(ServiceTime, 'pdf', @HypoExp_pdf, 'start', [0.5, 1], 'LowerBound', [0, 0], 'UpperBound', [Inf, Inf]);
@@ -146,4 +132,30 @@ function F = HyperExp_cdf(x, p)
 	F = max(0,1 - p1 * exp(-l1*x) - (1-p1) * exp(-l2*x));
 end
 
+function F = Unif_cdf(x, a, b)
+	F = max(0, min(1, (x>a) .* (x<b) .* (x - a) / (b - a) + (x >= b)));
+end
 
+function F = Exp_cdf(x, l)
+	F = max(0,1 - exp(-l*x));
+end
+
+function F = Erlang_cdf(x, l, k)
+    CDF_erlang = zeros(length(x), 1);
+    for j=1:length(x)
+            CDF_erlang(j) = 0;
+            for h=0:k-1
+                CDF_erlang(j) = CDF_erlang(j) + exp(-l*x(j))*(l*x(j))^h / factorial(h);
+            end
+            CDF_erlang(j) = 1 - CDF_erlang(j);
+    end
+    F = CDF_erlang;
+end
+
+function F = Weibull_cdf(x, lambda, k)
+    F = (1-exp(-(x/lambda) .^ k)) .* (x >=0);
+end
+
+function F = Pareto_cdf(x, m, alpha)
+    F = (1 - (m ./ x) .^alpha) .* (x >= m);
+end
