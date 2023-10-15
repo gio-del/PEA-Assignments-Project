@@ -47,15 +47,14 @@ for i=1:2
     plot(Time, Exp_cdf(Time, lambda), 'DisplayName','Exponential');
 
     % Erlang Distribution
+    k = round(M(1)^2 / (M(2)-M(1)^2));
+    lambda = k/M(1);
+    fprintf(1, "Erlang k of Trace %d: %g\n", i, k);
+    fprintf(1, "Erlang Lambda of Trace %d: %g\n", i, lambda);
     if(cv <= 1)
-        k = round(M(1)^2 / (M(2)-M(1)^2));
-        lambda = k/M(1);
-        fprintf(1, "Erlang k of Trace %d: %g\n", i, k);
-        fprintf(1, "Erlang Lambda of Trace %d: %g\n", i, lambda);
-
         plot(Time, Erlang_cdf(Time, lambda, k), 'DisplayName','Erlang');
     else
-        fprintf(1, "Trace %d cannot fit an Erlang Distribution \n", i);
+        fprintf(1, "[!!!]: Trace %d cannot fit an Erlang Distribution \n", i);
     end
     
     % METHOD OF MOMENTS
@@ -85,24 +84,24 @@ for i=1:2
     % MAXIMUM LIKELIHOOD METHOD
 
     % Hyper-Exponential
+    HyperE_values = mle(ServiceTime, 'pdf', @HyperExp_pdf, 'start', [0.8 / M(1), 1.2 / M(1), 0.4], 'LowerBound', [0, 0, 0], 'UpperBound', [Inf, Inf, 1]);
+    fprintf(1, "Hyper-Exp Lambda1 of Trace %d: %g\n", i, HyperE_values(1));
+    fprintf(1, "Hyper-Exp Lambda2 of Trace %d: %g\n", i, HyperE_values(2));
+    fprintf(1, "Hyper-Exp p1 of Trace %d: %g\n", i, HyperE_values(3));
     if(cv >= 1)
-        HyperE_values = mle(ServiceTime, 'pdf', @HyperExp_pdf, 'start', [0.5, 0.5, 0.5], 'LowerBound', [0, 0, 0], 'UpperBound', [Inf, Inf, 1]);
-        fprintf(1, "Hyper-Exp Lambda1 of Trace %d: %g\n", i, HyperE_values(1));
-        fprintf(1, "Hyper-Exp Lambda2 of Trace %d: %g\n", i, HyperE_values(2));
-        fprintf(1, "Hyper-Exp p1 of Trace %d: %g\n", i, HyperE_values(3));
         plot(Time, HyperExp_cdf(Time, HyperE_values), 'DisplayName', 'Hyper-Exp');
     else
-        fprintf(1, "Trace %d cannot fit an Hyper-Exp Distribution \n", i);
+        fprintf(1, "[!!!]: Trace %d cannot fit an Hyper-Exp Distribution \n", i);
     end
 
     % Hypo-Exponential
+    HypoE_values = mle(ServiceTime, 'pdf', @HypoExp_pdf, 'start', [1 / (0.3*M(1)), 1 / (0.7*M(1))], 'LowerBound', [0, 0], 'UpperBound', [Inf, Inf]);
+    fprintf(1, "Hypo-Exp Lambda1 of Trace %d: %g\n", i, HypoE_values(1));
+    fprintf(1, "Hypo-Exp Lambda2 of Trace %d: %g\n", i, HypoE_values(2));
     if(cv < 1)
-        HypoE_values = mle(ServiceTime, 'pdf', @HypoExp_pdf, 'start', [0.5, 1], 'LowerBound', [0, 0], 'UpperBound', [Inf, Inf]);
-        fprintf(1, "Hypo-Exp Lambda1 of Trace %d: %g\n", i, HypoE_values(1));
-        fprintf(1, "Hypo-Exp Lambda2 of Trace %d: %g\n", i, HypoE_values(2));
         plot(Time, HypoExp_cdf(Time, HypoE_values), 'DisplayName', 'Hypo-Exp');
     else
-        fprintf(1, "Trace %d cannot fit an Hypo-Exp Distribution \n", i);
+        fprintf(1, "[!!!]: Trace %d cannot fit an Hypo-Exp Distribution \n", i);
     end
     legend;
     title('CDF');
