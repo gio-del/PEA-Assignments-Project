@@ -2,22 +2,25 @@ clc;
 clear all;
 close all;
 
-m = 232;
+m = 2^32;
 a = 1664525;
 c = 1013904223;
 seed = 521191478;
 N = 10000;
-x = 0:25;
 
 % Linear Congruent Generator
 
-u(1) = mod(seed,m) / m;
-for i=2:N
-    u(i) = mod(a*u(i-1) + c, m) / m;
+for i=1:N
+    if (i==1)
+       x(i) = seed;
+    else
+        x(i) = mod(a*x(i-1) + c, m);
+    end
 end
 
-sorted_u = sort(u);
+u = x / m;
 
+x = 0:25;
 % Exponential Distribution
 
 lambda_exp = 0.1;
@@ -27,9 +30,9 @@ x_exp = -log(u) / lambda_exp;
 CDF_exp_empirical = empirical_cdf(x_exp);
 
 figure('Name','Exponential Distribution','NumberTitle','off');
-plot(CDF_exp_empirical(:,1), CDF_exp_empirical(:,2), 'DisplayName', 'Empirical');
+plot(CDF_exp_empirical(:,1), CDF_exp_empirical(:,2), ':', 'DisplayName', 'Empirical', 'LineWidth', 2);
 hold on;
-plot(x, Exp_cdf(x, lambda_exp), 'DisplayName', 'Exact');
+plot(x, Exp_cdf(x, lambda_exp), '--', 'DisplayName', 'Exact', 'LineWidth', 2);
 legend;
 xlim([0 25]);
 title('Exponential')
@@ -47,9 +50,9 @@ x_pareto = m ./ (u) .^ (1/alpha);
 CDF_pareto_empirical = empirical_cdf(x_pareto);
 
 figure('Name','Pareto Distribution','NumberTitle','off');
-plot(CDF_pareto_empirical(:,1), CDF_pareto_empirical(:,2), 'DisplayName', 'Empirical');
+plot(CDF_pareto_empirical(:,1), CDF_pareto_empirical(:,2), ':', 'DisplayName', 'Empirical', 'LineWidth', 2);
 hold on;
-plot(x, Pareto_cdf(x, alpha, m), 'DisplayName', 'Exact');
+plot(x, Pareto_cdf(x, alpha, m), '--', 'DisplayName', 'Exact', 'LineWidth', 2);
 legend;
 xlim([0 25]);
 title('Pareto');
@@ -71,9 +74,9 @@ end
 CDF_erlang_empirical = empirical_cdf(x_erlang);
 
 figure('Name','Erlang Distribution','NumberTitle','off');
-plot(CDF_erlang_empirical(:,1), CDF_erlang_empirical(:,2), 'DisplayName', 'Empirical');
+plot(CDF_erlang_empirical(:,1), CDF_erlang_empirical(:,2), ':', 'DisplayName', 'Empirical', 'LineWidth', 2);
 hold on;
-plot(x, Erlang_cdf(x, lambda_erlang, k), 'DisplayName', 'Exact')
+plot(x, Erlang_cdf(x, lambda_erlang, k), '--', 'DisplayName', 'Exact', 'LineWidth', 2)
 legend;
 xlim([0 25]);
 title('Erlang');
@@ -92,9 +95,9 @@ end
 CDF_hypoexp_empirical = empirical_cdf(x_hypoexp);
 
 figure('Name','Hypo-Exponential Distribution','NumberTitle','off');
-plot(CDF_hypoexp_empirical(:,1), CDF_hypoexp_empirical(:,2), 'DisplayName', 'Empirical');
+plot(CDF_hypoexp_empirical(:,1), CDF_hypoexp_empirical(:,2), ':', 'DisplayName', 'Empirical', 'LineWidth', 2);
 hold on;
-plot(x, HypoExp_cdf(x, hypo_lambda(1), hypo_lambda(2)), 'DisplayName', 'Exact');
+plot(x, HypoExp_cdf(x, hypo_lambda(1), hypo_lambda(2)), '--', 'DisplayName', 'Exact', 'LineWidth', 2);
 hold off;
 legend;
 xlim([0 25]);
@@ -116,9 +119,9 @@ end
 CDF_hyperexp_empirical = empirical_cdf(x_hyperexp);
 
 figure('Name','Hyper-Exponential Distribution','NumberTitle','off');
-plot(CDF_hyperexp_empirical(:,1), CDF_hyperexp_empirical(:,2), 'DisplayName', 'Empirical');
+plot(CDF_hyperexp_empirical(:,1), CDF_hyperexp_empirical(:,2), ':', 'DisplayName', 'Empirical', 'LineWidth', 2);
 hold on;
-plot(x, HyperExp_cdf(x, hyper_lambda(1), hyper_lambda(2), hyper_p), 'DisplayName', 'Exact');
+plot(x, HyperExp_cdf(x, hyper_lambda(1), hyper_lambda(2), hyper_p), '--', 'DisplayName', 'Exact', 'LineWidth', 2);
 legend;
 xlim([0 25]);
 title('Hyper-Exponential');
