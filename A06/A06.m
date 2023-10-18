@@ -2,10 +2,10 @@ clear all;
 clc;
 close all;
 
-K0 = 100;
+K0 = 500;
 maxK = 10000;
 M = 1000;
-DK = 20;
+DK = 50;
 MaxRelErr = 0.04;
 
 gam = 0.95;
@@ -57,6 +57,7 @@ for scenario=1:2
 			    Bi = Bi + s_ji;
 			    
 			    Wi = Wi + ri;
+
 		    end
 		    
 		    Ri = Wi / M;
@@ -158,7 +159,7 @@ function F = initService(i, p)
         % Uniform with: a = 5, b = 10
         a = p(1);
         b = p(2);
-        service_time = a + (b-a) .* rand();
+        service_time = a + (b-a) * rand();
     end
     F = service_time;
 end
