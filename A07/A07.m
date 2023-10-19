@@ -7,11 +7,11 @@ t = 0;
 
 win = 0;
 run = 0;
-Tmax = 1000000;
+Rmax = 100000;
 
 trace = [t, s];
 
-while t < Tmax
+while run < Rmax
 
     dt = 0;
 
@@ -100,15 +100,15 @@ while t < Tmax
 end
 
 P_win = win / run;
-inter_game_time = Tmax/run;
+inter_game_time = t/run;
 average_run_time = inter_game_time - 5*60;
 throughput = 1/inter_game_time * 3600;
 
 fprintf(1, "#Run: %g\n", run);
-fprintf(1, "Probability of Winning: %g\n", P_win);
-fprintf(1, "Average Run Time: %g\n", average_run_time);
-fprintf(1, "Average Inter Game Time: %g\n", inter_game_time);
-fprintf(1, "Throughput of the system: %g\n", throughput);
+fprintf(1, "Winning Probability: %g\n", P_win);
+fprintf(1, "Average Game Time: %g min\n", average_run_time / 60);
+fprintf(1, "Average Inter Game Time: %g min\n", inter_game_time / 60);
+fprintf(1, "Throughput of the system: %g game/hour\n", throughput);
 
 function F = exp_time(l)
     F = -log(rand())/l;
