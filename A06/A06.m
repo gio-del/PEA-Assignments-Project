@@ -5,7 +5,7 @@ close all;
 K0 = 500;
 maxK = 10000;
 M = 1000;
-DK = 50;
+DK = 500;
 MaxRelErr = 0.04;
 
 gam = 0.95;
@@ -31,6 +31,8 @@ for scenario=1:2
     U2 = 0;
     R = 0;
     R2 = 0;
+    Rvar2 = 0;
+    Rvar = 0;
     N = 0;
     N2 = 0;
     X = 0;
@@ -51,12 +53,15 @@ for scenario=1:2
 			    tC = max(tA, tC) + s_ji;
 			    ri = tC - tA;
 			    Rd((i-1)*M+j,1) = ri;
-	    
+	            
+                Rall(j) = ri;
 			    tA = tA + a_ji;
 			    
 			    Bi = Bi + s_ji;
 			    
 			    Wi = Wi + ri;
+
+
 
 		    end
 		    
@@ -77,34 +82,38 @@ for scenario=1:2
             Xi = M / Ti;
             X = X + Xi;
             X2 = X2 + Xi^2;
+
+            Rvari = var(Rall);
+            Rvar = Rvar + Rvari;
+            Rvar2 = Rvar2 + Rvari^2;
 	    end
 	    
-	    Rm = R / K; %average response time
+	    Rm = R / K; % average response time
 	    Rs = sqrt((R2 - R^2/K)/(K-1));
 	    CiR = [Rm - d_gamma * Rs / sqrt(K), Rm + d_gamma * Rs / sqrt(K)];
 	    errR = 2 * d_gamma * Rs / sqrt(K) / Rm;
 
-        Rv = R2 / K - Rm^2;
-        Rsv = sqrt((R2 - R^2/K)/(K-1));
-        CiRv = [Rv - d_gamma * Rsv / sqrt(K), Rv + d_gamma * Rsv / sqrt(K)];
-        errRv = 2 * d_gamma * Rsv / sqrt(K) / Rv;   
+        Rvarm = Rvar / K; % variance of response time
+	    Rvars = sqrt((Rvar2 - Rvar^2/K)/(K-1));
+	    CiRvar = [Rvarm - d_gamma * Rvars / sqrt(K), Rvarm + d_gamma * Rvars / sqrt(K)];
+	    errRvar = 2 * d_gamma * Rvars / sqrt(K) / Rvarm;  
 	    
-	    Um = U / K; %utilization
+	    Um = U / K; % utilization
 	    Us = sqrt((U2 - U^2/K)/(K-1));
 	    CiU = [Um - d_gamma * Us / sqrt(K), Um + d_gamma * Us / sqrt(K)];
 	    errU = 2 * d_gamma * Us / sqrt(K) / Um;
 
-        Nm = N / K; %average number of jobs
+        Nm = N / K; % average number of jobs
         Ns = sqrt((N2 - N^2/K)/(K-1));
         CiN = [Nm - d_gamma * Ns / sqrt(K), Nm + d_gamma * Ns / sqrt(K)];
         errN = 2 * d_gamma * Ns / sqrt(K) / Nm;
 
-        Xm = X / K; %average throughput
+        Xm = X / K; % average throughput
         Xs = sqrt((X2 - X^2/K)/(K-1));
         CiX = [Xm - d_gamma * Xs / sqrt(K), Xm + d_gamma * Xs / sqrt(K)];
         errX = 2 * d_gamma * Xs / sqrt(K) / Xm;
 	    
-	    if errR < MaxRelErr && errU < MaxRelErr && errN < MaxRelErr && errX < MaxRelErr && errRv < MaxRelErr
+	    if errR < MaxRelErr && errU < MaxRelErr && errN < MaxRelErr && errX < MaxRelErr && errRvar < MaxRelErr
 		    break;
 	    else
 		    K = K + DK;
@@ -112,17 +121,17 @@ for scenario=1:2
 	    end
     end
     
-    if errR < MaxRelErr && errU < MaxRelErr && errN < MaxRelErr && errX < MaxRelErr && errRv < MaxRelErr
+    if errR < MaxRelErr && errU < MaxRelErr && errN < MaxRelErr && errX < MaxRelErr && errRvar < MaxRelErr
 	    fprintf(1, "Maximum Relative Error reached in %d Iterations\n", K);
     else
 	    fprintf(1, "Maximum Relative Error NOT REACHED in %d Iterations\n", K);
     end	
     
     fprintf(1, "Utilization in [%g, %g], with %g confidence. Relative Error: %g\n", CiU(1,1), CiU(1,2), gam, errU);
-    fprintf(1, "Throughput in [%g, %g], with %g confidence. Relative Error: %g\n", CiX(1,1), CiX(1,2), gam, errR);
-    fprintf(1, "Average #jobs in [%g, %g], with %g confidence. Relative Error: %g\n", CiN(1,1), CiN(1,2), gam, errR);
+    fprintf(1, "Throughput in [%g, %g], with %g confidence. Relative Error: %g\n", CiX(1,1), CiX(1,2), gam, errX);
+    fprintf(1, "Average #jobs in [%g, %g], with %g confidence. Relative Error: %g\n", CiN(1,1), CiN(1,2), gam, errN);
     fprintf(1, "Average Resp. Time in [%g, %g], with %g confidence. Relative Error: %g\n", CiR(1,1), CiR(1,2), gam, errR);
-    fprintf(1, "Variance of Resp. Time in [%g, %g], with %g confidence. Relative Error: %g\n", CiRv(1,1), CiRv(1,2), gam, errRv);
+    fprintf(1, "Variance of Resp. Time in [%g, %g], with %g confidence. Relative Error: %g\n", CiRvar(1,1), CiRvar(1,2), gam, errRvar);
 end
 
 function F = initInterArrival(i, p)
