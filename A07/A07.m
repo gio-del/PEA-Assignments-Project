@@ -2,7 +2,7 @@ clear all;
 clc;
 close all;
 
-s = 1;
+s = 0;
 t = 0;
 
 win = 0;
@@ -11,87 +11,71 @@ Rmax = 100000;
 
 trace = [t, s];
 
+rng(0);
 while run < Rmax
 
     dt = 0;
 
-    if(s==1) % Entrance
+    if(s==0) % Entrance
         if(rand() < 0.7)
-            ns = 2;
-        else 
-            ns = 3;
-        end
-
-    end
-
-    if(s==2) % Going to C1
-        if(rand() < 0.8)
-            ns = 4;
+            if(rand() < 0.8)
+            ns = 1;
             dt = erlang_time(1.5/60, 4);
-        else 
-            ns = 9;
+            else 
+            ns = 3;
             dt = exp_time(0.5/60);
-        end
-    end
-
-    if(s==3) % Going to C2
-        if(rand() < 0.7)
-            ns = 9;
+            end
+        else 
+            if(rand() < 0.7)
+            ns = 3;
             dt = exp_time(0.25/60);
-        else 
-            ns = 5;
+            else 
+            ns = 2;
             dt = uniform_time(3*60, 6*60);
+            end
         end
     end
 
-    if(s==4) % C1
+    if(s==1) % C1
         if(rand() < 0.5)
-            ns = 6;
+            if(rand() < 0.75)
+            ns = 3;
+            dt = exp_time(0.4/60);
+            else 
+            ns = 2;
+            dt = erlang_time(2/60, 3);
+            end
         else 
-            ns = 7;
+            if(rand() < 0.4)
+            ns = 3;
+            dt = exp_time(0.2/60);
+            else 
+            ns = 2;
+            dt = exp_time(0.15/60);
+            end
         end
         
     end
 
-    if(s==5) % C2
+    if(s==2) % C2
         dt = erlang_time(4/60, 5);
         if(rand() < 0.6)
-            ns = 8;
+            ns = 4;
         else 
-            ns = 9;
+            ns = 3;
         end
     end
 
-    if(s==6) % C1 Going to C2
-        if(rand() < 0.75)
-            ns = 9;
-            dt = exp_time(0.4/60);
-        else 
-            ns = 5;
-            dt = erlang_time(2/60, 3);
-        end
-    end  
-
-    if(s==7) % C1 Going to C2
-        if(rand() < 0.4)
-            ns = 9;
-            dt = exp_time(0.2/60);
-        else 
-            ns = 5;
-            dt = exp_time(0.15/60);
-        end
-    end    
-
-    if(s==8) % WIN
-        ns = 1;
+    if(s==3) % LAVA
+        ns = 0;
         dt = 5*60;
-        win = win + 1;
         run = run + 1;
     end
 
-    if(s==9) % LAVA
-        ns = 1;
+    if(s==4) % EXIT
+        ns = 0;
         dt = 5*60;
+        win = win + 1;
         run = run + 1;
     end
 
@@ -125,6 +109,3 @@ end
 function F = uniform_time(a, b)
     F = a + (b-a) * rand();
 end
-
-
-
