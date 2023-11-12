@@ -46,7 +46,7 @@ rho = lambda / (c * u);
 U = sum(arrayfun(@(x) (x * pn(rho, x, c, K)), 1:c));
 U = U + sum(arrayfun(@(x) (c * pn(rho, x, c, K)), 3:K));
 
-U = U / c;
+avg_U = U / c;
 
 % The loss probability
 P_loss = pn(rho, K, c, K);
@@ -64,10 +64,11 @@ R = N / (lambda * (1 - pn(rho, K, c, K)));
 Tqueue = R - D;
 
 fprintf(1, "================== SCENARIO 2 ==================\n");
-fprintf(1, "Utilization: %g\n", U);
-fprintf(1, "Loss Probability: %g\n", P_loss);
+fprintf(1, "Total Utilization: %g\n", U);
+fprintf(1, "Average Utilization: %g\n", avg_U);
+fprintf(1, "Loss Probability: %f\n", P_loss);
 fprintf(1, "Average Number of Jobs in the system: %g\n", N);
-fprintf(1, "Drop Rate: %g\n", Dr);
+fprintf(1, "Drop Rate: %f\n", Dr);
 fprintf(1, "Average Response Time: %g\n", R);
 fprintf(1, "Average Time Spent in the queue: %g\n", Tqueue);
 
