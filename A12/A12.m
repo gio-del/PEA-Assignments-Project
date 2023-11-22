@@ -41,6 +41,6 @@ R2 = D + ((ca^2 + cv^2)/2) * theta;
 N2 = (lambda/k) * R2;
 
 fprintf(1, "============ SCENARIO 2: G/G/3 ============\n");
-fprintf(1, "Total Utilization: %g\n", U2);
-fprintf(1, "The (exact) average response time: %g\n", R2);
-fprintf(1, "The (exact) average number of jobs in the system: %g\n", N2);
+fprintf(1, "Average Utilization: %g\n", U2);
+fprintf(1, "The (approximate) average response time: %g\n", R2);
+fprintf(1, "The (approximate) average number of jobs in the system: %g\n", N2);
