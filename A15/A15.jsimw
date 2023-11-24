@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<archive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="aaa.jsimw" timestamp="Fri Nov 24 15:37:17 CET 2023" xsi:noNamespaceSchemaLocation="Archive.xsd">
+    <sim disableStatisticStop="false" logDecimalSeparator="," logDelimiter=";" logPath="C:\Users\giova\JMT\" logReplaceMode="0" maxEvents="-1" maxSamples="1000000" name="aaa.jsimw" polling="1.0" xsi:noNamespaceSchemaLocation="SIMmodeldefinition.xsd">
+        <userClass customers="80" name="Ambrogio" priority="0" referenceSource="Terminals" softDeadline="0.0" type="closed"/>
+        <node name="Terminals">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="Delay">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>2.5E-5</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>AppServer</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>1.0</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <node name="AppServer">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="PSServer">
+                <parameter classPath="java.lang.Integer" name="maxJobs">
+                    <value>1</value>
+                </parameter>
+                <parameter classPath="java.lang.Integer" name="maxRunning">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Integer" name="numberOfVisits">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Integer" name="numberOfVisits">
+                        <value>1</value>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>0.02</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.PSStrategy" name="PSStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.PSStrategies.EPSStrategy" name="EPSStrategy"/>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Double" name="serviceWeights">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Double" name="serviceWeight">
+                        <value>1.0</value>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>Terminals</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>0.1</value>
+                                </subParameter>
+                            </subParameter>
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>StorageCtrl</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>0.4</value>
+                                </subParameter>
+                            </subParameter>
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>DBMS</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>0.5</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <node name="StorageCtrl">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="PSServer">
+                <parameter classPath="java.lang.Integer" name="maxJobs">
+                    <value>1</value>
+                </parameter>
+                <parameter classPath="java.lang.Integer" name="maxRunning">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Integer" name="numberOfVisits">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Integer" name="numberOfVisits">
+                        <value>1</value>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>0.5</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.PSStrategy" name="PSStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.PSStrategies.EPSStrategy" name="EPSStrategy"/>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Double" name="serviceWeights">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Double" name="serviceWeight">
+                        <value>1.0</value>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>Disk1</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>0.6</value>
+                                </subParameter>
+                            </subParameter>
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>Disk2</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>0.4</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <node name="DBMS">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="PSServer">
+                <parameter classPath="java.lang.Integer" name="maxJobs">
+                    <value>1</value>
+                </parameter>
+                <parameter classPath="java.lang.Integer" name="maxRunning">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Integer" name="numberOfVisits">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Integer" name="numberOfVisits">
+                        <value>1</value>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>0.0125</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.PSStrategy" name="PSStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.PSStrategies.EPSStrategy" name="EPSStrategy"/>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Double" name="serviceWeights">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Double" name="serviceWeight">
+                        <value>1.0</value>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>AppServer</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>1.0</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <node name="Disk1">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="PSServer">
+                <parameter classPath="java.lang.Integer" name="maxJobs">
+                    <value>1</value>
+                </parameter>
+                <parameter classPath="java.lang.Integer" name="maxRunning">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Integer" name="numberOfVisits">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Integer" name="numberOfVisits">
+                        <value>1</value>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>0.0125</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.PSStrategy" name="PSStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.PSStrategies.EPSStrategy" name="EPSStrategy"/>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Double" name="serviceWeights">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Double" name="serviceWeight">
+                        <value>1.0</value>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>AppServer</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>1.0</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <node name="Disk2">
+            <classSoftDeadlines>
+                <softDeadline>0.0</softDeadline>
+            </classSoftDeadlines>
+            <section className="Queue">
+                <parameter classPath="java.lang.Integer" name="size">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.String" name="dropStrategies">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.String" name="dropStrategy">
+                        <value>drop</value>
+                    </subParameter>
+                </parameter>
+                <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.QueuePutStrategy" name="QueuePutStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.QueuePutStrategies.TailStrategy" name="TailStrategy"/>
+                </parameter>
+            </section>
+            <section className="PSServer">
+                <parameter classPath="java.lang.Integer" name="maxJobs">
+                    <value>1</value>
+                </parameter>
+                <parameter classPath="java.lang.Integer" name="maxRunning">
+                    <value>-1</value>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Integer" name="numberOfVisits">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Integer" name="numberOfVisits">
+                        <value>1</value>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.ServiceStrategy" name="ServiceStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.ServiceStrategies.ServiceTimeStrategy" name="ServiceTimeStrategy">
+                        <subParameter classPath="jmt.engine.random.Exponential" name="Exponential"/>
+                        <subParameter classPath="jmt.engine.random.ExponentialPar" name="distrPar">
+                            <subParameter classPath="java.lang.Double" name="lambda">
+                                <value>0.008333333333333333</value>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+                <parameter array="true" classPath="jmt.engine.NetStrategies.PSStrategy" name="PSStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.PSStrategies.EPSStrategy" name="EPSStrategy"/>
+                </parameter>
+                <parameter array="true" classPath="java.lang.Double" name="serviceWeights">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="java.lang.Double" name="serviceWeight">
+                        <value>1.0</value>
+                    </subParameter>
+                </parameter>
+            </section>
+            <section className="Router">
+                <parameter array="true" classPath="jmt.engine.NetStrategies.RoutingStrategy" name="RoutingStrategy">
+                    <refClass>Ambrogio</refClass>
+                    <subParameter classPath="jmt.engine.NetStrategies.RoutingStrategies.EmpiricalStrategy" name="Probabilities">
+                        <subParameter array="true" classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntryArray">
+                            <subParameter classPath="jmt.engine.random.EmpiricalEntry" name="EmpiricalEntry">
+                                <subParameter classPath="java.lang.String" name="stationName">
+                                    <value>AppServer</value>
+                                </subParameter>
+                                <subParameter classPath="java.lang.Double" name="probability">
+                                    <value>1.0</value>
+                                </subParameter>
+                            </subParameter>
+                        </subParameter>
+                    </subParameter>
+                </parameter>
+            </section>
+        </node>
+        <measure alpha="0.01" name="Terminals_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="Terminals" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="Terminals_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="Terminals" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="Terminals_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="Terminals" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="Terminals_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="Terminals" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <measure alpha="0.01" name="AppServer_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="AppServer" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="AppServer_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="AppServer" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="AppServer_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="AppServer" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="AppServer_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="AppServer" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <measure alpha="0.01" name="StorageCtrl_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="StorageCtrl" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="StorageCtrl_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="StorageCtrl" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="StorageCtrl_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="StorageCtrl" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="StorageCtrl_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="StorageCtrl" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <measure alpha="0.01" name="DBMS_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="DBMS" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="DBMS_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="DBMS" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="DBMS_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="DBMS" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="DBMS_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="DBMS" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <measure alpha="0.01" name="Disk1_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="Disk1" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="Disk1_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="Disk1" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="Disk1_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="Disk1" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="Disk1_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="Disk1" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <measure alpha="0.01" name="Disk2_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceNode="Disk2" referenceUserClass="Ambrogio" type="Number of Customers" verbose="false"/>
+        <measure alpha="0.01" name="Disk2_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceNode="Disk2" referenceUserClass="Ambrogio" type="Residence Time" verbose="false"/>
+        <measure alpha="0.01" name="Disk2_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceNode="Disk2" referenceUserClass="Ambrogio" type="Utilization" verbose="false"/>
+        <measure alpha="0.01" name="Disk2_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceNode="Disk2" referenceUserClass="Ambrogio" type="Throughput" verbose="false"/>
+        <connection source="Terminals" target="AppServer"/>
+        <connection source="AppServer" target="Terminals"/>
+        <connection source="AppServer" target="StorageCtrl"/>
+        <connection source="AppServer" target="DBMS"/>
+        <connection source="StorageCtrl" target="Disk1"/>
+        <connection source="StorageCtrl" target="Disk2"/>
+        <connection source="DBMS" target="AppServer"/>
+        <connection source="Disk1" target="AppServer"/>
+        <connection source="Disk2" target="AppServer"/>
+        <preload>
+            <stationPopulations stationName="Terminals">
+                <classPopulation population="80" refClass="Ambrogio"/>
+            </stationPopulations>
+        </preload>
+    </sim>
+    <jmodel xsi:noNamespaceSchemaLocation="JModelGUI.xsd"/>
+    <results elapsedTime="9552" logDecimalSeparator="," logDelimiter=";" pollingInterval="1.0" xsi:noNamespaceSchemaLocation="Results.xsd">
+        <measure alpha="0.99" analyzedSamples="24320" discardedSamples="16065" finalValue="71.1654312240199" name="Terminals_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Terminals" state="1" type="0">
+            <sample lastIntervalAvgValue="71.63121319878132" meanValue="71.63121319878132" simulationTime="1869698.087927043"/>
+            <sample lastIntervalAvgValue="70.98617028150746" meanValue="70.94205382147115" simulationTime="9489927.771818457"/>
+            <sample lastIntervalAvgValue="70.4724692743276" lowerBound="70.02009422200948" meanValue="71.1654312240199" simulationTime="1.139324814748016E7" upperBound="72.31076822603032"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="40" finalValue="40216.1048496404" name="Terminals_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Terminals" state="1" type="3">
+            <sample lastIntervalAvgValue="40353.67050195281" meanValue="40353.67050195281" simulationTime="1869447.786000978"/>
+            <sample lastIntervalAvgValue="39997.2493892663" lowerBound="37594.78763556769" meanValue="40186.44754603521" simulationTime="9489551.66524112" upperBound="42778.10745650272"/>
+            <sample lastIntervalAvgValue="40863.07901826563" lowerBound="39114.702642577264" meanValue="40478.88229423715" simulationTime="1.7419895202737473E7" upperBound="41843.06194589704"/>
+            <sample lastIntervalAvgValue="40522.71154363141" lowerBound="39081.360795376684" meanValue="40444.3776037468" simulationTime="2.5989859659540717E7" upperBound="41807.394412116904"/>
+            <sample lastIntervalAvgValue="39620.87627018753" lowerBound="39064.4541447493" meanValue="40426.881310166624" simulationTime="3.444955723578861E7" upperBound="41789.308475583945"/>
+            <sample lastIntervalAvgValue="40780.94953232927" lowerBound="39498.34194602285" meanValue="40216.1048496404" simulationTime="3.4739037465903625E7" upperBound="40933.867753257946"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="24320" discardedSamples="16065" finalValue="71.1654312240199" name="Terminals_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Terminals" state="1" type="6">
+            <sample lastIntervalAvgValue="71.63121319878132" meanValue="71.63121319878132" simulationTime="1869698.087927043"/>
+            <sample lastIntervalAvgValue="70.98617028150746" meanValue="70.94205382147115" simulationTime="9489927.771818457"/>
+            <sample lastIntervalAvgValue="70.4724692743276" lowerBound="70.02009422200948" meanValue="71.1654312240199" simulationTime="1.139324814748016E7" upperBound="72.31076822603032"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="33280" discardedSamples="2035" finalValue="0.0017621080464800855" name="Terminals_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Terminals" state="1" type="5">
+            <sample lastIntervalAvgValue="0.0017882286015332718" meanValue="0.0017882286015332718" simulationTime="1869447.786000978"/>
+            <sample lastIntervalAvgValue="0.0017822591680146836" lowerBound="0.0017119087706566462" meanValue="0.0017925120663420469" simulationTime="9489551.66524112" upperBound="0.0018810806283433258"/>
+            <sample lastIntervalAvgValue="0.0017477174771139447" lowerBound="0.0017146390343017483" meanValue="0.0017720312746202346" simulationTime="1.7419895202737473E7" upperBound="0.001833398625055975"/>
+            <sample lastIntervalAvgValue="0.001754898613592018" lowerBound="0.0017263549853122793" meanValue="0.0017621080464800855" simulationTime="2.000181074184985E7" upperBound="0.0017993733280761463"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="1000000" discardedSamples="34715" finalValue="5.465830276754293" name="AppServer_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="AppServer" state="2" type="0">
+            <sample lastIntervalAvgValue="5.19446815114154" lowerBound="2.6747951641817593" meanValue="3.7532248861637645" simulationTime="1870231.3162808428" upperBound="4.83165460814577"/>
+            <sample lastIntervalAvgValue="5.7153237422393195" lowerBound="4.746749345553639" meanValue="5.558298000547713" simulationTime="9490417.922882978" upperBound="6.369846655541786"/>
+            <sample lastIntervalAvgValue="5.405015600558287" lowerBound="4.926094779915523" meanValue="5.465830276754293" simulationTime="1.742002112684231E7" upperBound="6.005565773593062"/>
+            <sample lastIntervalAvgValue="5.4833754791234846" lowerBound="4.926094779915523" meanValue="5.465830276754293" simulationTime="2.5991113176579397E7" upperBound="6.005565773593062"/>
+            <sample lastIntervalAvgValue="5.990496480665962" lowerBound="4.926094779915523" meanValue="5.465830276754293" simulationTime="2.909959176636656E7" upperBound="6.005565773593062"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="1000000" discardedSamples="0" finalValue="3190.93339622767" name="AppServer_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="AppServer" state="2" type="3">
+            <sample lastIntervalAvgValue="2924.989610545642" lowerBound="2317.438173300353" meanValue="3384.9588214666255" simulationTime="1870210.2710522036" upperBound="4452.479469632898"/>
+            <sample lastIntervalAvgValue="3197.4524730843063" lowerBound="2749.9790146811397" meanValue="3104.459540843803" simulationTime="9490388.010220645" upperBound="3458.9400670064665"/>
+            <sample lastIntervalAvgValue="3059.7972488905516" lowerBound="2878.905922432129" meanValue="3141.90515229988" simulationTime="1.742002112684231E7" upperBound="3404.9043821676305"/>
+            <sample lastIntervalAvgValue="3115.93693961426" lowerBound="2880.698744739442" meanValue="3143.86175588342" simulationTime="2.5991113176579397E7" upperBound="3407.0247670273975"/>
+            <sample lastIntervalAvgValue="3310.0845891688173" lowerBound="3005.718265768761" meanValue="3186.7781838579585" simulationTime="3.4451310555984534E7" upperBound="3367.8381019471567"/>
+            <sample lastIntervalAvgValue="3443.61876207531" lowerBound="3011.0415928018506" meanValue="3192.4221800527425" simulationTime="4.206891243334238E7" upperBound="3373.802767303635"/>
+            <sample lastIntervalAvgValue="3086.0036725974824" lowerBound="3009.0585143386566" meanValue="3190.3196439450317" simulationTime="5.080818654511847E7" upperBound="3371.580773551407"/>
+            <sample lastIntervalAvgValue="3411.9055060841943" lowerBound="3009.637395685318" meanValue="3190.93339622767" simulationTime="5.623845188005326E7" upperBound="3372.229396770022"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="174080" discardedSamples="16495" finalValue="0.8945678439312504" name="AppServer_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="AppServer" state="1" type="6">
+            <sample lastIntervalAvgValue="0.8747574048072269" lowerBound="0.8338990394889217" meanValue="0.8717084637065073" simulationTime="1870231.3162808428" upperBound="0.9095178879240929"/>
+            <sample lastIntervalAvgValue="0.8980707192702916" lowerBound="0.8733502215436149" meanValue="0.8945678439312504" simulationTime="5353796.304513492" upperBound="0.915785466318886"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="204400" discardedSamples="400" finalValue="0.017808374523588875" name="AppServer_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="AppServer" state="1" type="5">
+            <sample lastIntervalAvgValue="0.01753599608965283" lowerBound="0.016209255231603645" meanValue="0.017527946121272387" simulationTime="1870210.2710522036" upperBound="0.019080200443805533"/>
+            <sample lastIntervalAvgValue="0.01781874447653203" lowerBound="0.017323389855680788" meanValue="0.017873021271604134" simulationTime="9490388.010220645" upperBound="0.018458672604525196"/>
+            <sample lastIntervalAvgValue="0.01795583625164304" lowerBound="0.017480337138109404" meanValue="0.017808374523588875" simulationTime="1.1507670830823641E7" upperBound="0.01814895932577912"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="163840" discardedSamples="60" finalValue="0.014400910245735067" name="StorageCtrl_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="StorageCtrl" state="1" type="0">
+            <sample lastIntervalAvgValue="0.014240524490153075" lowerBound="0.013381660201733269" meanValue="0.014184183097635765" simulationTime="1870211.151108694" upperBound="0.014986705993538262"/>
+            <sample lastIntervalAvgValue="0.01449177679574818" lowerBound="0.013934976161068384" meanValue="0.014533287415386347" simulationTime="9490390.015839806" upperBound="0.01513159866970431"/>
+            <sample lastIntervalAvgValue="0.01433556472019621" lowerBound="0.014086729431790658" meanValue="0.014400910245735067" simulationTime="1.1565618666935148E7" upperBound="0.014715091059679476"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="35840" discardedSamples="525" finalValue="8.16147697182865" name="StorageCtrl_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="StorageCtrl" state="1" type="3">
+            <sample lastIntervalAvgValue="8.021924005759256" lowerBound="7.62916450168662" meanValue="7.962161029359854" simulationTime="1870211.151108694" upperBound="8.29515755703309"/>
+            <sample lastIntervalAvgValue="8.17088054807588" lowerBound="7.991718544041564" meanValue="8.16147697182865" simulationTime="5126322.518511155" upperBound="8.331235399615737"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="163840" discardedSamples="60" finalValue="0.014197506957132981" name="StorageCtrl_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="StorageCtrl" state="1" type="6">
+            <sample lastIntervalAvgValue="0.014061494698093367" lowerBound="0.013167328286488976" meanValue="0.013994190756575592" simulationTime="1870211.151108694" upperBound="0.014821053226662209"/>
+            <sample lastIntervalAvgValue="0.01429198551681461" lowerBound="0.013736582678319502" meanValue="0.014329537334650139" simulationTime="9490390.015839806" upperBound="0.014922491990980776"/>
+            <sample lastIntervalAvgValue="0.01410545788009428" lowerBound="0.013894055208731663" meanValue="0.014197506957132981" simulationTime="1.1565618666935148E7" upperBound="0.014500958705534299"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="102400" discardedSamples="375" finalValue="0.007104338120567548" name="StorageCtrl_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="StorageCtrl" state="1" type="5">
+            <sample lastIntervalAvgValue="0.0069607113572618265" lowerBound="0.006071339446970626" meanValue="0.007217897767460586" simulationTime="1870211.151108694" upperBound="0.008898325898008154"/>
+            <sample lastIntervalAvgValue="0.007102851647027563" lowerBound="0.0068306019632924575" meanValue="0.007081207291364966" simulationTime="9490390.015839806" upperBound="0.007350901696207566"/>
+            <sample lastIntervalAvgValue="0.007119115217180208" lowerBound="0.006926248274363832" meanValue="0.007104338120567548" simulationTime="1.4495506369907381E7" upperBound="0.007291827862656491"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="1000000" discardedSamples="16505" finalValue="2.3107289834493647" name="DBMS_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="DBMS" state="2" type="0">
+            <sample lastIntervalAvgValue="2.1889836486889402" meanValue="2.1769835094233403" simulationTime="1870221.217246274"/>
+            <sample lastIntervalAvgValue="2.2564555656326215" lowerBound="2.0480720578347444" meanValue="2.349508826295477" simulationTime="9490417.922882978" upperBound="2.6509455947562097"/>
+            <sample lastIntervalAvgValue="2.3234474246580237" lowerBound="2.075822473114772" meanValue="2.2568395057930934" simulationTime="1.7419998779532313E7" upperBound="2.437856538471415"/>
+            <sample lastIntervalAvgValue="2.3630486787762974" lowerBound="2.173600789793468" meanValue="2.303439193337663" simulationTime="2.5991113176579397E7" upperBound="2.4332775968818576"/>
+            <sample lastIntervalAvgValue="2.2935235721839673" lowerBound="2.173600789793468" meanValue="2.303439193337663" simulationTime="3.4451310555984534E7" upperBound="2.4332775968818576"/>
+            <sample lastIntervalAvgValue="2.3453273666929126" lowerBound="2.173600789793468" meanValue="2.303439193337663" simulationTime="4.206895197278488E7" upperBound="2.4332775968818576"/>
+            <sample lastIntervalAvgValue="2.2418806699849974" lowerBound="2.2125837295093422" meanValue="2.3107289834493647" simulationTime="5.080818654511847E7" upperBound="2.408874237389387"/>
+            <sample lastIntervalAvgValue="2.3957224013045724" lowerBound="2.2125837295093422" meanValue="2.3107289834493647" simulationTime="5.7096108651796736E7" upperBound="2.408874237389387"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="655360" discardedSamples="325" finalValue="1302.5037563884068" name="DBMS_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="DBMS" state="1" type="3">
+            <sample lastIntervalAvgValue="1232.6174754505948" lowerBound="911.4931707994232" meanValue="1221.003624692641" simulationTime="1870221.217246274" upperBound="1530.5140785858591"/>
+            <sample lastIntervalAvgValue="1262.5251160604903" lowerBound="1135.4286982917165" meanValue="1231.4480286600271" simulationTime="9490417.922882978" upperBound="1327.467359028338"/>
+            <sample lastIntervalAvgValue="1313.5785625341855" lowerBound="1147.0383412576489" meanValue="1244.039459513725" simulationTime="1.7419998779532313E7" upperBound="1341.0405777698013"/>
+            <sample lastIntervalAvgValue="1345.847901561311" lowerBound="1227.680609127534" meanValue="1287.6970572312177" simulationTime="2.599110500438627E7" upperBound="1347.7135053349018"/>
+            <sample lastIntervalAvgValue="1294.9260899566204" lowerBound="1223.431866753651" meanValue="1283.2406106512963" simulationTime="3.4451224001558036E7" upperBound="1343.0493545489414"/>
+            <sample lastIntervalAvgValue="1312.5312899950793" lowerBound="1264.334356005792" meanValue="1312.4992684104318" simulationTime="4.206895197278488E7" upperBound="1360.6641808150714"/>
+            <sample lastIntervalAvgValue="1281.960851045828" lowerBound="1263.0162768995376" meanValue="1311.1309769814688" simulationTime="5.080792676756463E7" upperBound="1359.2456770634003"/>
+            <sample lastIntervalAvgValue="1347.3271037903157" lowerBound="1264.448550868116" meanValue="1312.6178135346265" simulationTime="5.860267068439818E7" upperBound="1360.787076201137"/>
+            <sample lastIntervalAvgValue="1295.8410927711507" lowerBound="1261.2294456983655" meanValue="1309.2760763112694" simulationTime="6.686928887925251E7" upperBound="1357.3227069241734"/>
+            <sample lastIntervalAvgValue="1295.5278205488603" lowerBound="1270.8306503574859" meanValue="1302.5037563884068" simulationTime="7.367274911080416E7" upperBound="1334.1768624193276"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="122880" discardedSamples="25" finalValue="0.7099660785161926" name="DBMS_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="DBMS" state="1" type="6">
+            <sample lastIntervalAvgValue="0.701783111938787" lowerBound="0.6565785092197322" meanValue="0.6999028613575007" simulationTime="1870221.217246274" upperBound="0.7432272134952692"/>
+            <sample lastIntervalAvgValue="0.713340852986306" lowerBound="0.6900549737787932" meanValue="0.7099660785161926" simulationTime="6887143.213013281" upperBound="0.7298771832535921"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="81920" discardedSamples="20" finalValue="0.008878798001312234" name="DBMS_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="DBMS" state="1" type="5">
+            <sample lastIntervalAvgValue="0.008797889708591253" lowerBound="0.00787695034507885" meanValue="0.008746654107049308" simulationTime="1870221.217246274" upperBound="0.009832244273077217"/>
+            <sample lastIntervalAvgValue="0.00891357061671584" lowerBound="0.00864481047489569" meanValue="0.008878798001312234" simulationTime="9217220.844667044" upperBound="0.009125804506455096"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="409600" discardedSamples="100" finalValue="0.511760925973554" name="Disk1_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk1" state="1" type="0">
+            <sample lastIntervalAvgValue="0.47707349689475137" lowerBound="0.4072052620434443" meanValue="0.4811139185055191" simulationTime="1870231.3162808428" upperBound="0.5550225749675939"/>
+            <sample lastIntervalAvgValue="0.5175864331137572" lowerBound="0.4803445859281403" meanValue="0.512994152529953" simulationTime="9490248.281670006" upperBound="0.5456437191317656"/>
+            <sample lastIntervalAvgValue="0.4994695625610713" lowerBound="0.49018285048687754" meanValue="0.5135932960689754" simulationTime="1.7419479594650075E7" upperBound="0.5370037416510733"/>
+            <sample lastIntervalAvgValue="0.5141489606538794" lowerBound="0.48961014481337006" meanValue="0.5061843199590775" simulationTime="2.5990285471108306E7" upperBound="0.522758495104785"/>
+            <sample lastIntervalAvgValue="0.5163315096815775" lowerBound="0.48961014481337006" meanValue="0.5061843199590775" simulationTime="3.445110819244359E7" upperBound="0.522758495104785"/>
+            <sample lastIntervalAvgValue="0.5237041770978847" lowerBound="0.48961014481337006" meanValue="0.5061843199590775" simulationTime="4.206883759918495E7" upperBound="0.522758495104785"/>
+            <sample lastIntervalAvgValue="0.49398495421130517" lowerBound="0.5004010567103562" meanValue="0.511760925973554" simulationTime="4.816461823508851E7" upperBound="0.5231207952367519"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="102400" discardedSamples="540" finalValue="286.58866802423154" name="Disk1_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk1" state="1" type="3">
+            <sample lastIntervalAvgValue="268.746323512101" lowerBound="210.38985863004964" meanValue="262.46622031116783" simulationTime="1870231.3162808428" upperBound="314.54258199228605"/>
+            <sample lastIntervalAvgValue="288.8714545153631" lowerBound="269.4198989815817" meanValue="285.8466469218658" simulationTime="9490248.281670006" upperBound="302.27339486214987"/>
+            <sample lastIntervalAvgValue="283.94373348540876" lowerBound="279.96862219093373" meanValue="289.2317585055688" simulationTime="1.7419479594650075E7" upperBound="298.4948948202039"/>
+            <sample lastIntervalAvgValue="288.9420107972923" lowerBound="278.94194783890805" meanValue="286.58866802423154" simulationTime="2.430732998399564E7" upperBound="294.235388209555"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="163840" discardedSamples="2465" finalValue="0.33778211852590156" name="Disk1_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk1" state="1" type="6">
+            <sample lastIntervalAvgValue="0.32947884919336506" lowerBound="0.2937125105063042" meanValue="0.33089474063942775" simulationTime="1870231.3162808428" upperBound="0.3680769707725513"/>
+            <sample lastIntervalAvgValue="0.3414245361973036" lowerBound="0.3241058432042244" meanValue="0.3385207703802242" simulationTime="9490248.281670006" upperBound="0.352935697556224"/>
+            <sample lastIntervalAvgValue="0.3346241176541917" lowerBound="0.32724686338891995" meanValue="0.3394122300322567" simulationTime="1.7419479594650075E7" upperBound="0.3515775966755934"/>
+            <sample lastIntervalAvgValue="0.344648019402424" lowerBound="0.330483209827513" meanValue="0.33778211852590156" simulationTime="1.9608101956663057E7" upperBound="0.3450810272242901"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="51200" discardedSamples="1525" finalValue="0.004257710258352557" name="Disk1_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk1" state="1" type="5">
+            <sample lastIntervalAvgValue="0.004156170379746101" meanValue="0.004187019906336676" simulationTime="1870231.3162808428"/>
+            <sample lastIntervalAvgValue="0.004271119099580356" lowerBound="0.004118787639288496" meanValue="0.004267390417864525" simulationTime="9490248.281670006" upperBound="0.004427117507562205"/>
+            <sample lastIntervalAvgValue="0.004249978413404866" lowerBound="0.004169545827232732" meanValue="0.004257710258352557" simulationTime="1.240932193175496E7" upperBound="0.0043496836777340946"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="245760" discardedSamples="420" finalValue="0.5179666635385647" name="Disk2_Ambrogio_Number of Customers" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk2" state="1" type="0">
+            <sample lastIntervalAvgValue="0.49820549571194567" lowerBound="0.31599414256046476" meanValue="0.49000160504372386" simulationTime="1870146.5381149093" upperBound="0.664009067526983"/>
+            <sample lastIntervalAvgValue="0.5090523407713017" lowerBound="0.48018804376898105" meanValue="0.5166569558256099" simulationTime="9490390.015839806" upperBound="0.5531258678822387"/>
+            <sample lastIntervalAvgValue="0.5171864783343039" lowerBound="0.4818867899002394" meanValue="0.5080451498690257" simulationTime="1.7419507723216556E7" upperBound="0.534203509837812"/>
+            <sample lastIntervalAvgValue="0.5060310994935187" lowerBound="0.4870082713821017" meanValue="0.5073825334263096" simulationTime="2.5990779043108635E7" upperBound="0.5277567954705175"/>
+            <sample lastIntervalAvgValue="0.5169080307412692" lowerBound="0.4870082713821017" meanValue="0.5073825334263096" simulationTime="3.445124659813853E7" upperBound="0.5277567954705175"/>
+            <sample lastIntervalAvgValue="0.541071287813922" lowerBound="0.4870082713821017" meanValue="0.5073825334263096" simulationTime="4.2068766840662085E7" upperBound="0.5277567954705175"/>
+            <sample lastIntervalAvgValue="0.5105286453259495" lowerBound="0.5031143527296388" meanValue="0.5179666635385647" simulationTime="4.3270198953771666E7" upperBound="0.5328189743474906"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="51200" discardedSamples="170" finalValue="289.16131397356855" name="Disk2_Ambrogio_Residence Time" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk2" state="1" type="3">
+            <sample lastIntervalAvgValue="280.6377358661197" lowerBound="200.91241822993553" meanValue="271.6827554881992" simulationTime="1870146.5381149093" upperBound="342.4530927464628"/>
+            <sample lastIntervalAvgValue="285.0764094494898" lowerBound="271.4111286182628" meanValue="284.30319441702517" simulationTime="9489693.865682553" upperBound="297.1952602157876"/>
+            <sample lastIntervalAvgValue="290.4014284348519" lowerBound="275.7648238474036" meanValue="288.86369076610384" simulationTime="1.7419507723216556E7" upperBound="301.96255768480404"/>
+            <sample lastIntervalAvgValue="269.01251115212887" lowerBound="281.5714238072024" meanValue="289.16131397356855" simulationTime="1.802796371622021E7" upperBound="296.75120413993477"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="81920" discardedSamples="1155" finalValue="0.34290313525754185" name="Disk2_Ambrogio_Utilization" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk2" state="1" type="6">
+            <sample lastIntervalAvgValue="0.3355073609929256" lowerBound="0.2767565178895532" meanValue="0.32978558015425913" simulationTime="1870146.5381149093" upperBound="0.38281464241896507"/>
+            <sample lastIntervalAvgValue="0.340567702862722" lowerBound="0.3263500620492393" meanValue="0.33999199664990915" simulationTime="9490390.015839806" upperBound="0.353633931250579"/>
+            <sample lastIntervalAvgValue="0.3457363909373562" lowerBound="0.3345331259920174" meanValue="0.34290313525754185" simulationTime="1.4612253356127886E7" upperBound="0.3512731445230663"/>
+        </measure>
+        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="235" finalValue="0.00283944150593338" name="Disk2_Ambrogio_Throughput" nodeType="station" precision="0.03" referenceClass="Ambrogio" referenceStation="Disk2" state="1" type="5">
+            <sample lastIntervalAvgValue="0.002804593058941206" lowerBound="0.0021857853114560033" meanValue="0.002791140828450117" simulationTime="1870146.5381149093" upperBound="0.0038602376685189232"/>
+            <sample lastIntervalAvgValue="0.00283153303896956" lowerBound="0.002703427982192884" meanValue="0.0028484451777238662" simulationTime="9489693.865682553" upperBound="0.003009902256255115"/>
+            <sample lastIntervalAvgValue="0.0028695503335656233" lowerBound="0.0027145081279967734" meanValue="0.0028165905392097458" simulationTime="1.7419507723216556E7" upperBound="0.0029266508374968686"/>
+            <sample lastIntervalAvgValue="0.0028169942739488508" lowerBound="0.0027894430630161196" meanValue="0.00283944150593338" simulationTime="2.171593108194567E7" upperBound="0.0028912650226453865"/>
+        </measure>
+    </results>
+</archive>
