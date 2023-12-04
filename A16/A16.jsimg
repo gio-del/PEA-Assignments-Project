@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<archive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="A16.jsimg" timestamp="Wed Nov 29 15:50:40 CET 2023" xsi:noNamespaceSchemaLocation="Archive.xsd">
-    <sim disableStatisticStop="false" logDecimalSeparator="," logDelimiter=";" logPath="C:\Users\giova\JMT" logReplaceMode="0" maxEvents="-1" maxSamples="1000000" name="A16.jsimg" polling="1.0" xsi:noNamespaceSchemaLocation="SIMmodeldefinition.xsd">
+<archive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="A16.jsimw.jsimg" timestamp="Mon Dec 04 14:00:40 CET 2023" xsi:noNamespaceSchemaLocation="Archive.xsd">
+    <sim disableStatisticStop="false" logDecimalSeparator="," logDelimiter=";" logPath="C:\Users\giova\JMT" logReplaceMode="0" maxEvents="-1" maxSamples="1000000" name="A16.jsimw.jsimg" polling="1.0" xsi:noNamespaceSchemaLocation="SIMmodeldefinition.xsd">
         <userClass customers="200" name="Closed" priority="0" referenceSource="Terminal" softDeadline="0.0" type="closed"/>
         <node name="Terminal">
             <classSoftDeadlines>
@@ -130,12 +130,12 @@
             </classSoftDeadlines>
             <section className="Queue">
                 <parameter classPath="java.lang.Integer" name="size">
-                    <value>-1</value>
+                    <value>10</value>
                 </parameter>
                 <parameter array="true" classPath="java.lang.String" name="dropStrategies">
                     <refClass>Closed</refClass>
                     <subParameter classPath="java.lang.String" name="dropStrategy">
-                        <value>drop</value>
+                        <value>BAS blocking</value>
                     </subParameter>
                 </parameter>
                 <parameter classPath="jmt.engine.NetStrategies.QueueGetStrategies.FCFSstrategy" name="FCFSstrategy"/>
@@ -384,46 +384,49 @@
     <jmodel xsi:noNamespaceSchemaLocation="JModelGUI.xsd">
         <userClass color="#FF0000FF" name="Closed"/>
         <station name="Terminal">
-            <position angle="0.0" rotate="false" x="176.0" y="282.0"/>
+            <position angle="0.0" rotate="false" x="145.0" y="157.0"/>
         </station>
         <station name="NetworkCtrl">
-            <position angle="0.0" rotate="false" x="368.0" y="302.0"/>
+            <position angle="0.0" rotate="false" x="336.0" y="377.0"/>
         </station>
         <station name="SANCtrl">
-            <position angle="0.0" rotate="false" x="755.0" y="307.0"/>
+            <position angle="0.0" rotate="false" x="445.0" y="167.0"/>
         </station>
         <station name="Disk1">
-            <position angle="0.0" rotate="false" x="1007.0" y="463.0"/>
+            <position angle="0.0" rotate="false" x="789.0" y="31.0"/>
         </station>
         <station name="Disk2">
-            <position angle="0.0" rotate="false" x="1006.0" y="308.0"/>
+            <position angle="0.0" rotate="false" x="790.0" y="160.0"/>
         </station>
         <station name="Disk3">
-            <position angle="0.0" rotate="false" x="1011.0" y="112.0"/>
+            <position angle="0.0" rotate="false" x="797.0" y="278.0"/>
         </station>
     </jmodel>
-    <results elapsedTime="3249" logDecimalSeparator="," logDelimiter=";" pollingInterval="1.0" xsi:noNamespaceSchemaLocation="Results.xsd">
-        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="905" finalValue="1.6656503972291063" name="Closed_System Throughput" nodeType="" precision="0.03" referenceClass="Closed" referenceStation="" state="1" type="16">
-            <sample lastIntervalAvgValue="1.7062423814353835" meanValue="1.7062423814353835" simulationTime="819.9304009920826"/>
-            <sample lastIntervalAvgValue="1.6493312902046773" lowerBound="1.5825379428551773" meanValue="1.6473433924271816" simulationTime="12553.776787668196" upperBound="1.717683079834662"/>
-            <sample lastIntervalAvgValue="1.673714343130776" lowerBound="1.6039003023968321" meanValue="1.6686859566414065" simulationTime="28567.859543189963" upperBound="1.7389256308330152"/>
-            <sample lastIntervalAvgValue="1.6567110165755268" lowerBound="1.64094409388215" meanValue="1.6656503972291063" simulationTime="37495.18594593906" upperBound="1.6911120367384103"/>
+    <results elapsedTime="3739" logDecimalSeparator="," logDelimiter=";" pollingInterval="1.0" xsi:noNamespaceSchemaLocation="Results.xsd">
+        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="425" finalValue="1.6652086443886507" name="Closed_System Throughput" nodeType="" precision="0.03" referenceClass="Closed" referenceStation="" state="1" type="16">
+            <sample lastIntervalAvgValue="1.684145705171335" lowerBound="1.5008736968915666" meanValue="1.6911473795048557" simulationTime="4969.285005627578" upperBound="1.9366691529174718"/>
+            <sample lastIntervalAvgValue="1.6682394356569312" lowerBound="1.6018730249183504" meanValue="1.663184193525065" simulationTime="15306.530146466213" upperBound="1.729375476981463"/>
+            <sample lastIntervalAvgValue="1.6514252544224748" lowerBound="1.6058957653559942" meanValue="1.659378194845375" simulationTime="25482.588648052428" upperBound="1.7165456870664408"/>
+            <sample lastIntervalAvgValue="1.6707224327677048" lowerBound="1.6058957653559942" meanValue="1.659378194845375" simulationTime="35448.93594394412" upperBound="1.7165456870664408"/>
+            <sample lastIntervalAvgValue="1.6696873563188368" lowerBound="1.6339698084590826" meanValue="1.6652086443886507" simulationTime="37123.50093925219" upperBound="1.6976652328755235"/>
         </measure>
-        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="125" finalValue="119.91676690484152" name="Closed_System Response Time" nodeType="" precision="0.03" referenceClass="Closed" referenceStation="" state="1" type="15">
-            <sample lastIntervalAvgValue="101.44429815478058" meanValue="101.44429815478058" simulationTime="819.9304009920826"/>
-            <sample lastIntervalAvgValue="121.24510716683433" lowerBound="113.75348031196465" meanValue="120.81217713271766" simulationTime="12553.776787668196" upperBound="127.87087395347068"/>
-            <sample lastIntervalAvgValue="119.3040466711316" lowerBound="115.32923971951514" meanValue="119.7837233989184" simulationTime="28567.859543189963" upperBound="124.23820707832165"/>
-            <sample lastIntervalAvgValue="120.64430950930026" lowerBound="117.59509544906716" meanValue="119.91676690484152" simulationTime="36994.93301907114" upperBound="122.23843836061589"/>
+        <measure alpha="0.99" analyzedSamples="61440" discardedSamples="210" finalValue="120.07997667755463" name="Closed_System Response Time" nodeType="" precision="0.03" referenceClass="Closed" referenceStation="" state="1" type="15">
+            <sample lastIntervalAvgValue="115.69820151535541" lowerBound="99.66384751057191" meanValue="117.5897090487885" simulationTime="4969.285005627578" upperBound="135.5155705870051"/>
+            <sample lastIntervalAvgValue="120.08845216416512" lowerBound="112.77851584967141" meanValue="119.89594950896061" simulationTime="15306.530146466213" upperBound="127.01338316824982"/>
+            <sample lastIntervalAvgValue="120.98982149229484" lowerBound="115.41388728399906" meanValue="120.36615267567984" simulationTime="25482.588648052428" upperBound="125.31841806736062"/>
+            <sample lastIntervalAvgValue="119.587320042964" lowerBound="115.41388728399906" meanValue="120.36615267567984" simulationTime="35448.93594394412" upperBound="125.31841806736062"/>
+            <sample lastIntervalAvgValue="120.6482937350046" lowerBound="117.5196052239848" meanValue="120.07997667755463" simulationTime="37001.75607008355" upperBound="122.64034813112445"/>
         </measure>
-        <measure alpha="0.99" analyzedSamples="655360" discardedSamples="530" finalValue="0.1854898460103041" name="NetworkCtrl_Closed_Number of Customers" nodeType="station" precision="0.03" referenceClass="Closed" referenceStation="NetworkCtrl" state="1" type="0">
-            <sample lastIntervalAvgValue="0.19607738784538933" lowerBound="0.10486739523293127" meanValue="0.18914551030244625" simulationTime="820.5175119464549" upperBound="0.27342362537196124"/>
-            <sample lastIntervalAvgValue="0.18550158848560608" lowerBound="0.17744312511326923" meanValue="0.18394191466432064" simulationTime="12554.124120118659" upperBound="0.19044070421537204"/>
-            <sample lastIntervalAvgValue="0.1845388842371418" lowerBound="0.1810084312669207" meanValue="0.1854898460103041" simulationTime="19511.759094171644" upperBound="0.1899712607536875"/>
+        <measure alpha="0.99" analyzedSamples="819200" discardedSamples="220" finalValue="0.1817395508374602" name="NetworkCtrl_Closed_Number of Customers" nodeType="station" precision="0.03" referenceClass="Closed" referenceStation="NetworkCtrl" state="1" type="0">
+            <sample lastIntervalAvgValue="0.18701531737057894" lowerBound="0.17492715356922797" meanValue="0.19034459879274168" simulationTime="4969.514638492236" upperBound="0.2057620440162554"/>
+            <sample lastIntervalAvgValue="0.18263115105690314" lowerBound="0.17504017558548213" meanValue="0.1814982340579756" simulationTime="15306.891061456956" upperBound="0.18795629253046908"/>
+            <sample lastIntervalAvgValue="0.17988202689090083" lowerBound="0.17758385708983307" meanValue="0.1817395508374602" simulationTime="24761.68157711643" upperBound="0.18589524458508735"/>
         </measure>
-        <measure alpha="0.99" analyzedSamples="450560" discardedSamples="1375" finalValue="0.19234592869454548" name="SANCtrl_Closed_Number of Customers" nodeType="station" precision="0.03" referenceClass="Closed" referenceStation="SANCtrl" state="1" type="0">
-            <sample lastIntervalAvgValue="0.20293035074615895" lowerBound="0.0887450529216986" meanValue="0.1895559157062204" simulationTime="820.5175119464549" upperBound="0.2903667784907422"/>
-            <sample lastIntervalAvgValue="0.19124166143155927" lowerBound="0.18278656449989555" meanValue="0.19100063376151272" simulationTime="12554.124120118659" upperBound="0.19921470302312988"/>
-            <sample lastIntervalAvgValue="0.19358840185126874" lowerBound="0.18713238461901255" meanValue="0.19234592869454548" simulationTime="14860.535349288892" upperBound="0.1975594727700784"/>
+        <measure alpha="0.99" analyzedSamples="819200" discardedSamples="195" finalValue="0.18661185508688655" name="SANCtrl_Closed_Number of Customers" nodeType="station" precision="0.03" referenceClass="Closed" referenceStation="SANCtrl" state="1" type="0">
+            <sample lastIntervalAvgValue="0.19226758318003334" lowerBound="0.1776433707275356" meanValue="0.19320723241947496" simulationTime="4969.514638492236" upperBound="0.2087710941114143"/>
+            <sample lastIntervalAvgValue="0.18785632848430847" lowerBound="0.18165474960402822" meanValue="0.1873102607992889" simulationTime="15306.505667892912" upperBound="0.19296577199454956"/>
+            <sample lastIntervalAvgValue="0.1857885786304511" lowerBound="0.18165474960402822" meanValue="0.1873102607992889" simulationTime="25482.886298398622" upperBound="0.19296577199454956"/>
+            <sample lastIntervalAvgValue="0.1818796952253991" lowerBound="0.1824120663909372" meanValue="0.18661185508688655" simulationTime="27552.8796991323" upperBound="0.19081164378283588"/>
         </measure>
     </results>
 </archive>
