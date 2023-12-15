@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<archive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="A16.jsimw.jsimg" timestamp="Mon Dec 04 14:00:40 CET 2023" xsi:noNamespaceSchemaLocation="Archive.xsd">
-    <sim disableStatisticStop="false" logDecimalSeparator="," logDelimiter=";" logPath="C:\Users\giova\JMT" logReplaceMode="0" maxEvents="-1" maxSamples="1000000" name="A16.jsimw.jsimg" polling="1.0" xsi:noNamespaceSchemaLocation="SIMmodeldefinition.xsd">
+<archive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="A16.jsimg" timestamp="Sun Dec 10 14:33:30 CET 2023" xsi:noNamespaceSchemaLocation="Archive.xsd">
+    <sim disableStatisticStop="false" logDecimalSeparator="," logDelimiter=";" logPath="C:\Users\giova\JMT" logReplaceMode="0" maxEvents="-1" maxSamples="1000000" name="A16.jsimg" polling="1.0" xsi:noNamespaceSchemaLocation="SIMmodeldefinition.xsd">
         <userClass customers="200" name="Closed" priority="0" referenceSource="Terminal" softDeadline="0.0" type="closed"/>
         <node name="Terminal">
             <classSoftDeadlines>
