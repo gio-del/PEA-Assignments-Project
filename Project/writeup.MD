@@ -1,0 +1,2 @@
+- Fitting uso assignment 4
+- C'era una entry a 0 nel video trace, l'ho rimorsa per il fitting
