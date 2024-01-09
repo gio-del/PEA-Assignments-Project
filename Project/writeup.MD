@@ -1,3 +1,4 @@
+- Papiro sui goal del computer performance evaluation (throughput vs response time)
 - Fitting uso assignment 4
 - C'era una entry a 0 nel video trace, l'ho rimorsa per il fitting
 
@@ -23,3 +24,9 @@ Lambdas are [1/days]
 
 With a first run, it seems that the bottleneck is VFX. Inserting another VFX in parallel to the other one
 the bottleneck becames the Video Editing Stage
+
+# Risultati
+
+Mostro 3 grafici delle utilization + Utilization Comparison per ogni step.
+
+Uno step = Inserisco un nuovo server dove ho utilization bottleneck
