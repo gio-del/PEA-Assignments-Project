@@ -1,3 +1,7 @@
-# PEA Assignments and Final Project
+# Performance Evaluation and Applications Assignments and Project
 
-Performance Evaluation and Applications assignments and final project for the course at Politecnico di Milano A.Y. 2023/2024.
+## Description
+
+A total of 18 assignments were given to us. The topics vary from basic statistical analysis to the analysis of open and closed models.
+
+Final Score: 30/30
